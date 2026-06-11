@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: echos-backend
+    env: node
+    # Tell Render to navigate into the server folder to build and run
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false # You will provide this securely in the Render dashboard
