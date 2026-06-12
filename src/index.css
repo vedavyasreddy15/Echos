@@ -19,8 +19,8 @@ body {
   font-family: 'Lora', serif;
   background: var(--bg-gradient);
   color: var(--color-text-dark);
-  height: 100vh;
-  overflow: hidden; /* Prevent scrolling, force fit to screen */
+  min-height: 100vh;
+  overflow-x: hidden;
   position: relative;
 }
 

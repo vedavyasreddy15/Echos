@@ -7,7 +7,7 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
   
   // Form fields
   const [formData, setFormData] = useState({
-    email: '', phone: '', fullName: '', street: '', city: '', state: '', country: '', zipCode: '', deliveryDate: ''
+    senderName: '', senderEmail: '', email: '', fullName: '', street: '', city: '', state: '', country: '', zipCode: '', deliveryDate: '', deliveryTime: '12:00'
   });
 
   const handleRecipientSelect = (type) => {
@@ -90,15 +90,26 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
         <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
           <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--color-primary)' }}>Delivery Details</h2>
           
+          {/* SENDER INFO */}
+          <div style={{ background: '#fdf5e6', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: '#333' }}>Your Details (For Official Receipt)</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="form-group">
+                <label>Your Name</label>
+                <input type="text" name="senderName" value={formData.senderName} onChange={handleChange} className="form-control" placeholder="Jane Doe" required />
+              </div>
+              <div className="form-group">
+                <label>Your Email</label>
+                <input type="email" name="senderEmail" value={formData.senderEmail} onChange={handleChange} className="form-control" placeholder="jane@example.com" required />
+              </div>
+            </div>
+          </div>
+          
           {deliveryType === 'virtual' ? (
             <>
               <div className="form-group">
                 <label>Email Address</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-control" placeholder="recipient@example.com" />
-              </div>
-              <div className="form-group">
-                <label>Phone Number (Optional)</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-control" placeholder="+1 (555) 000-0000" />
               </div>
             </>
           ) : (
@@ -136,7 +147,12 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
 
           <div className="form-group" style={{ marginTop: '2rem' }}>
             <label>When should this be delivered?</label>
-            <input type="date" name="deliveryDate" value={formData.deliveryDate} onChange={handleChange} className="form-control" style={{ maxWidth: '300px' }} />
+            <div style={{ display: 'flex', gap: '1rem', maxWidth: '400px' }}>
+              <input type="date" name="deliveryDate" value={formData.deliveryDate} onChange={handleChange} className="form-control" style={{ flex: 2 }} />
+              {deliveryType === 'virtual' && (
+                <input type="time" name="deliveryTime" value={formData.deliveryTime} onChange={handleChange} className="form-control" style={{ flex: 1 }} />
+              )}
+            </div>
           </div>
 
           <button 

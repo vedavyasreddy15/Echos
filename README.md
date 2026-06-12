@@ -1,16 +1,33 @@
-# React + Vite
+# Echos: Time Capsule Logistics
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Echos is a modern, full-stack web application that allows users to create digital time capsules. Users can write letters, attach photos/videos, and securely schedule them to be delivered to loved ones years into the future. 
 
-Currently, two official plugins are available:
+## Features
+- **Secure File Zipping**: Uploaded memories are intercepted, heavily compressed into a single `.zip` package, and securely piped into a MongoDB GridFS bucket to save space.
+- **Automated Delivery Engine**: A background Node.js CRON worker runs silently, evaluating delivery schedules and automatically dispatching personalized HTML emails when the time arrives.
+- **Aesthetic UI**: Built using React, featuring a sleek, responsive design with dynamic animations and modern typography.
+- **Admin Logistics Portal**: A companion secure dashboard (in a separate repository) for logistics staff to track, manage, and facilitate both digital and physical time capsule deliveries.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- **Frontend**: React (Vite), Vanilla CSS
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB Atlas (with GridFS for large file streaming)
+- **Utilities**: `nodemailer` (email engine), `archiver` (high-compression zipping), `node-cron` (scheduling)
 
-## React Compiler
+## Environment Variables
+To run this application, you must provide the following `.env` variables in the `server/` directory:
+```env
+MONGO_URI=your_mongodb_connection_string
+EMAIL_USER=your_gmail_address
+EMAIL_PASS=your_gmail_app_password
+JWT_SECRET=your_secure_random_string
+API_URL=your_public_backend_url
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Running Locally
+1. Clone the repository.
+2. Open a terminal in the `/server` folder and run `npm install`. Then run `npm run dev` to start the backend.
+3. Open a second terminal in the root folder (for the React frontend) and run `npm install`. Then run `npm run dev` to start the website.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+*Preserve Your Legacy with Echos.*

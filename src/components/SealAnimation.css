@@ -1,0 +1,125 @@
+.seal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeInOverlay 0.5s ease-out forwards;
+  backdrop-filter: blur(5px);
+}
+
+.envelope {
+  position: relative;
+  width: 200px;
+  height: 140px;
+  background: #fdf5e6;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: dropIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.envelope::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 70px solid #f1e0c6;
+  z-index: 1;
+}
+
+.envelope::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-top: 70px solid #e8d5ba;
+  z-index: 2;
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-top: 80px solid #dcbfa2;
+  transform-origin: top;
+  animation: foldFlap 1s ease-in-out 1s forwards;
+  z-index: 3;
+}
+
+.wax-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, #d32f2f, #9a0000);
+  border-radius: 50%;
+  z-index: 4;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.5);
+  animation: stampWax 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 2s forwards;
+}
+
+.stamp {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+}
+
+.sealing-text {
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-top: 40px;
+  font-size: 24px;
+  letter-spacing: 2px;
+  opacity: 0;
+  animation: fadeInText 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dropIn {
+  0% { transform: translateY(-100vh) rotate(-10deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+@keyframes foldFlap {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(180deg); }
+}
+
+@keyframes stampWax {
+  0% { transform: translate(-50%, -50%) scale(0); }
+  50% { transform: translate(-50%, -50%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
