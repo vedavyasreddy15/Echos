@@ -24,6 +24,16 @@ router.post('/process-due', auth, async (req, res) => {
   }
 });
 
+// GET Endpoint to test nodemailer configuration
+router.get('/test-email', async (req, res) => {
+  try {
+    const result = await transporter.verify();
+    res.json({ success: true, message: "Nodemailer verified successfully on the server!", user: process.env.EMAIL_USER });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.toString(), stack: err.stack, user: process.env.EMAIL_USER });
+  }
+});
+
 // Fallback storage if Mongo URI isn't configured yet (to avoid crashing on boot)
 const validMongoUri = process.env.MONGO_URI && !process.env.MONGO_URI.includes('<username>') 
   ? process.env.MONGO_URI 
