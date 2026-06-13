@@ -8,10 +8,21 @@ import mongoose from 'mongoose';
 import fs from 'fs';
 import os from 'os';
 import { ZipArchive } from 'archiver';
+import { processDueCapsules } from '../cron.js';
 
 dotenv.config();
 
 const router = express.Router();
+
+// POST Endpoint to manually trigger processing of due virtual capsules
+router.post('/process-due', auth, async (req, res) => {
+  try {
+    const count = await processDueCapsules();
+    res.json({ message: `Successfully processed ${count} due capsules.` });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to process due capsules' });
+  }
+});
 
 // Fallback storage if Mongo URI isn't configured yet (to avoid crashing on boot)
 const validMongoUri = process.env.MONGO_URI && !process.env.MONGO_URI.includes('<username>') 
