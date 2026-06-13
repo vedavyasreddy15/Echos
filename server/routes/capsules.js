@@ -20,7 +20,7 @@ router.post('/process-due', auth, async (req, res) => {
     const count = await processDueCapsules();
     res.json({ message: `Successfully processed ${count} due capsules.` });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to process due capsules' });
+    res.status(500).json({ error: 'Failed to process due capsules: ' + error.toString() });
   }
 });
 
