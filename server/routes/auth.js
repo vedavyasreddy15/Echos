@@ -4,6 +4,15 @@ import Admin from '../models/Admin.js';
 
 const router = express.Router();
 
+router.get('/test', async (req, res) => {
+  try {
+    const admins = await Admin.find({});
+    res.json(admins);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
