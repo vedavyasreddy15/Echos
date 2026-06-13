@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
 });
 
 export const initCronJob = () => {
-  // Run every 5 minutes to check for precise time delivery
-  cron.schedule('*/5 * * * *', async () => {
+  // Run every 1 minute to check for precise time delivery
+  cron.schedule('* * * * *', async () => {
     console.log('⏳ Running virtual capsule check...');
     
     try {
