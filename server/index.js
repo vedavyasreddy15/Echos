@@ -17,7 +17,11 @@ app.use(express.json());
 // Set up MongoDB Connection
 if (process.env.MONGO_URI && !process.env.MONGO_URI.includes('<username>')) {
   mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ Connected to MongoDB Atlas'))
+    .then(async () => {
+      console.log('✅ Connected to MongoDB Atlas');
+      const { seedAdmin } = await import('./scripts/seedAdmin.js');
+      await seedAdmin();
+    })
     .catch((error) => console.error('❌ MongoDB Connection Error:', error));
 } else {
   console.log('⚠️ WARNING: Using placeholder MONGO_URI. Please update your server/.env file.');
