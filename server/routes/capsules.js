@@ -236,16 +236,14 @@ router.post('/', upload.array('files'), async (req, res) => {
         </div>
       `;
 
-      try {
-        await transporter.sendMail({
-          from: `"Echos" <${process.env.EMAIL_USER}>`,
-          to: senderEmail,
-          subject: `Echos Receipt: ${receiptNumber}`,
-          html: htmlEmail
-        });
-      } catch (mailError) {
-        console.error("Failed to send receipt email:", mailError);
-      }
+      transporter.sendMail({
+        from: `"Echos" <${process.env.EMAIL_USER}>`,
+        to: senderEmail,
+        subject: `Echos Receipt: ${receiptNumber}`,
+        html: htmlEmail
+      }).catch(mailError => {
+        console.error("Failed to send receipt email in background:", mailError);
+      });
     }
 
     res.status(201).json({ message: 'Capsule sealed successfully', receiptNumber, capsuleId: newCapsule._id });

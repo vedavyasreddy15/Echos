@@ -29,12 +29,27 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
       alert("Please select a delivery date.");
       return;
     }
+
+    const selectedDateTime = new Date(`${formData.deliveryDate}T${deliveryType === 'virtual' ? formData.deliveryTime : '12:00'}`);
+    if (selectedDateTime <= new Date()) {
+      alert("Please select a delivery date and time in the future. Time capsules cannot be sent to the past!");
+      return;
+    }
+
     // Pass everything up to App.jsx for API submission
     onComplete({
       recipientType,
       deliveryType,
       ...formData
     });
+  };
+
+  const getTodayString = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   };
 
   return (
@@ -148,7 +163,7 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
           <div className="form-group" style={{ marginTop: '2rem' }}>
             <label>When should this be delivered?</label>
             <div style={{ display: 'flex', gap: '1rem', maxWidth: '400px' }}>
-              <input type="date" name="deliveryDate" value={formData.deliveryDate} onChange={handleChange} className="form-control" style={{ flex: 2 }} />
+              <input type="date" name="deliveryDate" min={getTodayString()} value={formData.deliveryDate} onChange={handleChange} className="form-control" style={{ flex: 2 }} />
               {deliveryType === 'virtual' && (
                 <input type="time" name="deliveryTime" value={formData.deliveryTime} onChange={handleChange} className="form-control" style={{ flex: 1 }} />
               )}
