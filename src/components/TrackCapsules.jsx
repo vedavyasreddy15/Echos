@@ -91,7 +91,7 @@ export default function TrackCapsules({ onBack }) {
                     </div>
                     <div>
                       <strong style={{ color: '#999', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Scheduled For</strong><br/>
-                      <span style={{ fontSize: '1.1rem', color: '#444' }}>{new Date(c.deliveryDate).toLocaleDateString()} {c.deliveryType === 'virtual' && c.deliveryTime ? `at ${c.deliveryTime}` : ''}</span>
+                      <span style={{ fontSize: '1.1rem', color: '#444' }}>{new Date(c.deliveryDate).toLocaleDateString('en-US', { timeZone: 'UTC' })} {c.deliveryType === 'virtual' && c.deliveryTime ? `at ${c.deliveryTime}` : ''}</span>
                     </div>
                     <div>
                       <strong style={{ color: '#999', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Type</strong><br/>
