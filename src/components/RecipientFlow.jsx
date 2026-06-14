@@ -36,11 +36,17 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
       return;
     }
 
+    let finalEmail = formData.email;
+    if (recipientType === 'self' && deliveryType === 'virtual') {
+      finalEmail = formData.senderEmail;
+    }
+
     // Pass everything up to App.jsx for API submission
     onComplete({
       recipientType,
       deliveryType,
-      ...formData
+      ...formData,
+      email: finalEmail
     });
   };
 
@@ -122,10 +128,12 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
           
           {deliveryType === 'virtual' ? (
             <>
-              <div className="form-group">
-                <label>Email Address</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-control" placeholder="recipient@example.com" />
-              </div>
+              {recipientType !== 'self' && (
+                <div className="form-group">
+                  <label>Recipient Email Address</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-control" placeholder="recipient@example.com" />
+                </div>
+              )}
             </>
           ) : (
             <>
