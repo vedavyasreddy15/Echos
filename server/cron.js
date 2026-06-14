@@ -83,13 +83,15 @@ export const processDueCapsules = async () => {
         html: htmlEmail
       };
 
-      await transporter.sendMail(mailOptions);
-      
-      capsule.status = 'delivered';
-      await capsule.save();
-      sentCount++;
-      
-      console.log(`✅ Capsule successfully sent to ${capsule.recipientDetails.email}`);
+      try {
+        await transporter.sendMail(mailOptions);
+        capsule.status = 'delivered';
+        await capsule.save();
+        sentCount++;
+        console.log(`✅ Capsule successfully sent to ${capsule.recipientDetails.email}`);
+      } catch (emailError) {
+        console.error(`❌ Failed to send email to ${capsule.recipientDetails.email}:`, emailError.message);
+      }
     }
     return sentCount;
   } catch (error) {
