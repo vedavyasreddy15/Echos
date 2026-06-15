@@ -236,7 +236,10 @@ router.post('/', upload.array('files'), async (req, res) => {
         </div>
       `;
 
-      fetch('https://echos-admin-sigma.vercel.app/api/send-email', {
+      const vercelDomain = process.env.VERCEL_URL || 'echos-admin.vercel.app';
+      const relayUrl = vercelDomain.startsWith('http') ? `${vercelDomain}/api/send-email` : `https://${vercelDomain}/api/send-email`;
+
+      fetch(relayUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
