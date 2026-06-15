@@ -76,15 +76,22 @@ export const processDueCapsules = async () => {
         </div>
       `;
 
-      const mailOptions = {
-        from: `"Echos" <${process.env.EMAIL_USER}>`,
-        to: capsule.recipientDetails.email,
-        subject: `A Time Capsule from ${capsule.senderName} has arrived.`,
-        html: htmlEmail
-      };
-
       try {
-        await transporter.sendMail(mailOptions);
+        const relayResponse = await fetch('https://echos-admin-sigma.vercel.app/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: capsule.recipientDetails.email,
+            subject: `A Time Capsule from ${capsule.senderName} has arrived.`,
+            html: htmlEmail
+          })
+        });
+
+        if (!relayResponse.ok) {
+           const errText = await relayResponse.text();
+           throw new Error(`Relay returned ${relayResponse.status}: ${errText}`);
+        }
+
         capsule.status = 'delivered';
         await capsule.save();
         sentCount++;

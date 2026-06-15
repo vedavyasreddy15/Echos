@@ -236,13 +236,18 @@ router.post('/', upload.array('files'), async (req, res) => {
         </div>
       `;
 
-      transporter.sendMail({
-        from: `"Echos" <${process.env.EMAIL_USER}>`,
-        to: senderEmail,
-        subject: `Echos Receipt: ${receiptNumber}`,
-        html: htmlEmail
+      fetch('https://echos-admin-sigma.vercel.app/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: senderEmail,
+          subject: `Echos Receipt: ${receiptNumber}`,
+          html: htmlEmail
+        })
+      }).then(res => {
+        if (!res.ok) console.error("Relay error:", res.status);
       }).catch(mailError => {
-        console.error("Failed to send receipt email in background:", mailError);
+        console.error("Failed to send receipt email in background via relay:", mailError);
       });
     }
 
