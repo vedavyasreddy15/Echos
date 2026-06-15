@@ -27,8 +27,13 @@ export const processDueCapsules = async () => {
 
     const dueCapsules = pendingCapsules.filter(capsule => {
       const capsuleDate = new Date(capsule.deliveryDate);
-      const [hours, minutes] = (capsule.deliveryTime || '12:00').split(':').map(Number);
-      capsuleDate.setHours(hours, minutes, 0, 0);
+      
+      // If the capsule date was saved perfectly at Midnight UTC, it's likely an older capsule that needs manual time parsing
+      if (capsuleDate.getUTCHours() === 0 && capsuleDate.getUTCMinutes() === 0) {
+        const [hours, minutes] = (capsule.deliveryTime || '12:00').split(':').map(Number);
+        capsuleDate.setUTCHours(hours, minutes, 0, 0);
+      }
+      
       return now >= capsuleDate;
     });
 

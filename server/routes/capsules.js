@@ -197,7 +197,7 @@ router.post('/', upload.array('files'), async (req, res) => {
       letter,
       recipientType,
       deliveryType,
-      deliveryDate: new Date(deliveryDate),
+      deliveryDate: req.body.exactDeliveryDate ? new Date(req.body.exactDeliveryDate) : new Date(deliveryDate),
       deliveryTime: deliveryTime || '12:00',
       recipientDetails: {
         email, fullName, street, city, state, country, zipCode

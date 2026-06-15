@@ -46,7 +46,8 @@ export default function RecipientFlow({ onComplete, isSubmitting }) {
       recipientType,
       deliveryType,
       ...formData,
-      email: finalEmail
+      email: finalEmail,
+      exactDeliveryDate: selectedDateTime.toISOString()
     });
   };
 
