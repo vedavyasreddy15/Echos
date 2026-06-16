@@ -63,7 +63,7 @@ function App() {
     });
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://echos-afxd.onrender.com';
       const response = await fetch(`${apiUrl}/api/capsules`, {
         method: 'POST',
         body: formData,
